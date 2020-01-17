@@ -1,0 +1,2 @@
+#!/bin/bash
+git --work-tree=/home/caioefdds/Coach/plataforma --git-dir=/home/caioefdds/Coach/plataforma/.git debug && notify-send "GIT" "  Uploaded Files  "
