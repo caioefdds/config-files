@@ -1,0 +1,32 @@
+[user]
+    name = Caio Fagundes
+    email = caioefdds@gmail.com
+[alias]
+    pud = "!f() { \
+        branch=$1; \
+        test -z $branch && branch=HEAD; \
+        git push -f deploy $branch:master; \
+    }; f"
+    lb = log --oneline --graph --decorate master..
+    l = log --oneline --graph --decorate --all
+    ck = checkout
+    pl = pull
+    ps = push
+    a = add
+    d = diff
+    c = commit
+    cm = commit -m
+    st = status
+    d = diff
+    psu = push --set-upstream origin
+    a = add
+    ap = add -p
+    ckb = checkout -b
+    ds = diff --staged
+    istechishou = stash show
+    checauti = checkout
+    debug = "!f() {\
+        num=$(ps aux | grep 'git pud' | wc -l); \
+        test $num -le 4 && \
+        git add -A && git commit --allow-empty -m 'debug' && git pud && git reset --mixed HEAD~1; \
+    }; f"
