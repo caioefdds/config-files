@@ -25,15 +25,18 @@ let mapleader = " "
 " Save
 nnoremap <leader>s :w<CR>
 " Close without save
-nnoremap <leader>Q :q!<CR>
+nnoremap <silent> <leader>Q :q!<CR>
 " Close
-nnoremap <leader>q :q<CR>
+nnoremap <silent> <leader>q :q<CR>
 " No Highlights
-nnoremap <leader>; :nohls<CR>
+nnoremap <silent> <leader>; :nohls<CR>
 " Reload VIM
-nnoremap <C-r> :source ~/.vimrc<CR>
+nnoremap <silent> <leader>r :source ~/.vimrc<CR>:AirlineRefresh<CR>
 " Toggle Fold
-noremap <leader><leader> za
+noremap <silent> <leader><leader> za
+" CHANGE TABS
+nnoremap <C-RIGHT> :tabnext<CR>
+nnoremap <C-LEFT> :tabprev<CR>
 " ===== AIRLINES
 let g:airline_powerline_fonts = 1
 let g:airline_theme='cool'
@@ -77,14 +80,35 @@ let g:airline_symbols.maxlinenr = '㏑'
 " ===== PLUGINS
 "StartVimPlug
 call plug#begin()
-	Plug 'StanAngeloff/php.vim'
+
+	" GIT
+	Plug 'tpope/vim-fugitive'
+	Plug 'Xuyuanp/nerdtree-git-plugin'
+	Plug 'airblade/vim-gitgutter'
+	" Plug Dracula
 	Plug 'dracula/vim', { 'as': 'dracula' }
+	" GCC
 	Plug 'tpope/vim-commentary'
+	" CTRL P
 	Plug 'ctrlpvim/ctrlp.vim'
+	" AIRLINE
 	Plug 'vim-airline/vim-airline'
-	Plug 'majutsushi/tagbar'
 	Plug 'vim-airline/vim-airline-themes'
+	" COLORSCHEMES
 	Plug 'flazz/vim-colorschemes'
+	" TAGS
+	Plug 'majutsushi/tagbar'
+	Plug 'ludovicchabant/vim-gutentags'
+	" DRAGVISUALS
+	Plug 'mariappan/dragvisuals.vim'
+	" SCROLL
+	Plug 'terryma/vim-smooth-scroll'
+	" OTHER PLUGINS
+	Plug 'suan/vim-instant-markdown'
+	Plug 'vimwiki/vimwiki'
+	Plug 'mattn/calendar-vim'
+	Plug 'godlygeek/tabular'
+
 call plug#end()
 "End Vim Plug
 
@@ -106,13 +130,13 @@ set undofile
 " highlight current line
 " set cursorline
 " draw screen config
-" set lazyredraw
-" set redrawtime=10000
+set lazyredraw
+set redrawtime=20000
 " tab config
-" set tabstop=3
-" set shiftwidth=3
-" set softtabstop=3
-" set noexpandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
 " show matching curly, paren or bracket
 " set showmatch
 " set splitbelow splitright
@@ -132,7 +156,7 @@ set listchars=tab:▸\ ,trail:•
 " set nofoldenable
 " set foldlevel=2
 " remove esc delay
-" set timeoutlen=1000 ttimeoutlen=0
+set timeoutlen=1000 ttimeoutlen=0
 " fix backspace
 set backspace=indent,eol,start
 set backspace=2
@@ -164,3 +188,54 @@ set noswapfile
 " PHP Generated Code Highlights (HTML & SQL)
 " let php_sql_query=1
 " let php_htmlInStrings=1
+
+" ===== DRAGVISUALS
+vmap <expr>  <LEFT>   DVB_Drag('left')
+vmap <expr>  <RIGHT>  DVB_Drag('right')
+vmap <expr>  <DOWN>   DVB_Drag('down')
+vmap <expr>  <UP>     DVB_Drag('up')
+vmap <expr>  D        DVB_Duplicate()
+vmap <expr>  <C-H>   DVB_Drag('left')
+vmap <expr>  <C-L>  DVB_Drag('right')
+vmap <expr>  <C-J>   DVB_Drag('down')
+vmap <expr>  <C-K>    DVB_Drag('up')
+
+" ===== GUTENTAGS
+let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js', '*.json', '*.xml',
+\ '*.phar', '*.ini', '*.rst', '*.md','*/vendor/*',
+\ '*vendor/*/test*', '*vendor/*/Test*',
+\ '*vendor/*/fixture*', '*vendor/*/Fixture*',
+\ '*var/cache*', '*var/log*']
+let g:gutentags_ctags_tagfile = ".tags"
+let g:gutentags_project_root = ['tags', '.tags']
+let g:gutentags_add_default_project_roots = 0
+
+" ===== SCROLL
+
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 10, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 20, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 20, 4)<CR>
+
+" ===== GIT GUTTER
+
+set updatetime=100
+
+" ===== VIM INSTANT MARKDOWN
+let g:instant_markdown_autostart = 0
+
+" ===== VIMWIKI
+let index = {}
+let index.path = '$NOTES_PATH/remote/'
+let index.syntax = 'markdown'
+let index.ext = '.md'
+
+let local_notes = {}
+let local_notes.path = '$NOTES_PATH/local/'
+let local_notes.syntax = 'markdown'
+let local_notes.ext = '.md'
+
+let g:vimwiki_list = [index, local_notes]
+let g:vimwiki_ext2syntax = {'.wiki': 'default', '.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+" don't use wiki syntax on other .md files
+" let g:vimwiki_global_ext = 0
