@@ -37,6 +37,8 @@ noremap <silent> <leader><leader> za
 " CHANGE TABS
 nnoremap <C-RIGHT> :tabnext<CR>
 nnoremap <C-LEFT> :tabprev<CR>
+" Snippet
+nnoremap <leader>ue :UltiSnipsEdit<CR>
 " ===== AIRLINES
 let g:airline_powerline_fonts = 1
 let g:airline_theme='cool'
@@ -108,7 +110,10 @@ call plug#begin()
 	Plug 'vimwiki/vimwiki'
 	Plug 'mattn/calendar-vim'
 	Plug 'godlygeek/tabular'
-
+	Plug 'christoomey/vim-system-copy'
+	" Vim Snippet
+	Plug 'sirver/ultisnips'
+	Plug 'honza/vim-snippets'
 call plug#end()
 "End Vim Plug
 
@@ -239,3 +244,6 @@ let g:vimwiki_list = [index, local_notes]
 let g:vimwiki_ext2syntax = {'.wiki': 'default', '.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 " don't use wiki syntax on other .md files
 " let g:vimwiki_global_ext = 0
+
+" ===== VIM-COPY
+let g:system_copy#copy_command='xclip -sel clipboard'
