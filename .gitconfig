@@ -1,32 +1,66 @@
 [user]
-    name = Caio Fagundes
     email = caioefdds@gmail.com
+	name = Caio Fagundes
+[core]
+	editor = vim
+	commitGraph = true
+[diff]
+	tool = vimdiff
+	algorithm = patience
+	indentHeuristic = true
+[difftool]
+	prompt = 0
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
 [alias]
-    pud = "!f() { \
-        branch=$1; \
-        test -z $branch && branch=HEAD; \
-        git push -f deploy $branch:master; \
-    }; f"
-    lb = log --oneline --graph --decorate master..
-    l = log --oneline --graph --decorate --all
-    ck = checkout
-    pl = pull
-    ps = push
-    a = add
-    d = diff
-    c = commit
-    cm = commit -m
-    st = status
-    d = diff
-    psu = push --set-upstream origin
-    a = add
-    ap = add -p
-    ckb = checkout -b
-    ds = diff --staged
-    istechishou = stash show
-    checauti = checkout
-    debug = "!f() {\
-        num=$(ps aux | grep 'git pud' | wc -l); \
-        test $num -le 4 && \
-        git add -A && git commit --allow-empty -m 'debug' && git pud && git reset --mixed HEAD~1; \
-    }; f"
+	ck = checkout
+	a = add
+	ap = add -p
+	c = commit
+	cm = commit -m
+	cam = commit -am
+	cmm = commit --amend --no-edit
+	camm = commit -a --amend --no-edit
+	chr = cherry-pick
+	st = status
+	ps = push
+	psu = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)"
+	pl = pull
+	b = branch
+	ba = branch -avv
+	f = fetch
+	fa = fetch --all
+	fap = fetch --all --prune
+	m = merge
+	s = show
+	sm = show -m
+	so = show --name-only
+	sf = "!f() { \
+		branch=$1; \
+		test -z $branch && branch=HEAD; \
+		git diff --name-only --oneline master...$branch; \
+	}; f"
+	d = diff
+	ds = diff --cached
+	lo = log --decorate --oneline --graph
+	ls = "log --pretty=format:'%C(yellow)%h %C(green)%an %C(auto)%d' --graph"
+	l  = "log --pretty=format:'%C(yellow)%h %C(green)%an %C(reset)%s %C(blue)%ar %C(auto)%d' --graph"
+	ll = "log --pretty=format:'%C(yellow)%h %C(green)%an %C(reset)%s %C(blue)%ar %C(auto)%d' --graph --all"
+	lb = "!f() { \
+		branch=$1; \
+		test -z $branch && branch=HEAD; \
+		git log --pretty=format:'%C(yellow)%h %C(green)%an %C(reset)%s %C(blue)%ar %C(auto)%d' --graph master..$branch; \
+	}; f"
+	pud = push -f deploy HEAD:master
+	debug = "!f() { \
+		num=$(ps aux | grep 'git pud' | wc -l); \
+		test $num -gt 4 && echo 'Already debugging' && exit; \
+		git add -A && git commit --allow-empty -m 'debug' && git pud && git reset --mixed HEAD~1; \
+	}; f"
+	hide = update-index --skip-worktree
+	unhide = update-index --no-skip-worktree
+	unhide-all = ! git ls-files -v | grep -i ^S | cut -c 3- | xargs git update-index --no-skip-worktree
+	hidden = ! git ls-files -v | grep '^S' | cut -c3-
+[fetch]
+	writeCommitGraph = true
