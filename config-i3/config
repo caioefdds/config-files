@@ -12,22 +12,51 @@ focus_follows_mouse no
 exec_always feh --bg-scale ~/Pictures/wallpaper.jpg
 exec_always --no-startup-id killall compton; compton -b
 
+# ===== EXTERNAL
+# Pulse Audio controls
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%; exec --no-startup-id pkill -SIGRTMIN+10 i3blocks
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%; exec --no-startup-id pkill -SIGRTMIN+10 i3blocks
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle; exec --no-startup-id pkill -SIGRTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q -D pulse sset Master 5%+; exec --no-startup-id pkill -RTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q -D pulse sset Master 5%-; exec --no-startup-id pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle; exec --no-startup-id pkill -RTMIN+10 i3blocks
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10 && pkill -RTMIN+20 i3blocks
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10 && pkill -RTMIN+20 i3blocks
+# Media player controls
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPause exec --no-startup-id playerctl pause
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+# change NUM_LOCK
+bindsym --release Num_Lock  exec --no-startup-id pkill -SIGRTMIN+11 i3blocks
+# change CAPS_LOCK
+bindsym --release Caps_Lock  exec --no-startup-id pkill -SIGRTMIN+12 i3blocks
+
+# ===== SCREENSHOT
+
+bindsym --release Print exec --no-startup-id scrot 'Screenshot_%d-%m-%y_%H-%M-%S.png' -e 'mv $f ~/Pictures/' && notify-send '📸 Screenshot Taken 📸'
+bindsym --release Shift+Print exec --no-startup-id scrot -s 'Screenshot_%d-%m-%y_%H-%M-%S.png' -e 'mv $f ~/Pictures/' && notify-send '📸 Screenshot Taken 📸'
+bindsym --release Control+Print exec --no-startup-id gnome-screenshot -i && notify-send '📸 Screenshot Taken 📸'
+bindsym --release $mod+Print exec --no-startup-id gnome-screenshot -a && notify-send '📸 Screenshot Taken 📸'
 # ===== COACHING CONCURSEIROS
 
 # Binds Passwords
 bindsym $mod+Ctrl+p exec --no-startup-id echo "AqzZD9nlrzH1JXH" | xsel --input --clipboard
 bindsym $mod+Ctrl+d exec --no-startup-id echo "U07eUWhqzlV8" | xclip -sel clipboard
 # Assigns
-assign [class="Chromium"] $ws2
+assign [class="Google-chrome"] $ws2
 assign [class="Nautilus"] $ws3
 assign [class="Mysql-workbench-bin"] $ws4
 assign [class="Thunderbird"] $ws5
-assign [class="Spotify"] $ws9
+for_window [class="Spotify"] move to workspace $ws9
 # Startup programs
-exec --no-startup-id chromium
+exec --no-startup-id google-chrome
 exec --no-startup-id nautilus
 exec --no-startup-id mysql-workbench
 exec --no-startup-id thunderbird
+exec --no-startup-id spotify
 
 # ===== SHORTCUTS
 
